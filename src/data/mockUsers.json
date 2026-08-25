@@ -1,0 +1,16 @@
+[
+  {
+    "username": "admin@fin.com",
+    "password": "password123",
+    "name": "Sarah Jenkins",
+    "role": "Commercial Operations Manager",
+    "avatar": "SJ"
+  },
+  {
+    "username": "analyst@fin.com",
+    "password": "password123",
+    "name": "Raj Patel",
+    "role": "Financial BI Analyst",
+    "avatar": "RP"
+  }
+]

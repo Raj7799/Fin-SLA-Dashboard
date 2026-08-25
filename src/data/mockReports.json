@@ -1,0 +1,62 @@
+[
+  {
+    "id": "REP-2026-08",
+    "name": "August 2026 Commercial SLA Compliance Report",
+    "period": "August 2026",
+    "generatedDate": "2026-08-25",
+    "status": "Ready",
+    "type": "Monthly Summary",
+    "executionsCount": 310,
+    "compliance": 95.8
+  },
+  {
+    "id": "REP-2026-07",
+    "name": "July 2026 Commercial SLA Compliance Report",
+    "period": "July 2026",
+    "generatedDate": "2026-08-01",
+    "status": "Ready",
+    "type": "Monthly Summary",
+    "executionsCount": 350,
+    "compliance": 94.3
+  },
+  {
+    "id": "REP-2026-06",
+    "name": "June 2026 Commercial SLA Compliance Report",
+    "period": "June 2026",
+    "generatedDate": "2026-07-01",
+    "status": "Ready",
+    "type": "Monthly Summary",
+    "executionsCount": 330,
+    "compliance": 96.1
+  },
+  {
+    "id": "REP-2026-05",
+    "name": "May 2026 Commercial SLA Compliance Report",
+    "period": "May 2026",
+    "generatedDate": "2026-06-01",
+    "status": "Ready",
+    "type": "Monthly Summary",
+    "executionsCount": 340,
+    "compliance": 93.8
+  },
+  {
+    "id": "REP-2026-04",
+    "name": "April 2026 Commercial SLA Compliance Report",
+    "period": "April 2026",
+    "generatedDate": "2026-05-01",
+    "status": "Ready",
+    "type": "Monthly Summary",
+    "executionsCount": 320,
+    "compliance": 95.3
+  },
+  {
+    "id": "REP-RCA-Q2",
+    "name": "Q2 2026 SLA Exceptions & Root-Cause Analysis",
+    "period": "Q2 2026",
+    "generatedDate": "2026-07-15",
+    "status": "Ready",
+    "type": "Diagnostic Report",
+    "executionsCount": 990,
+    "compliance": 95.1
+  }
+]

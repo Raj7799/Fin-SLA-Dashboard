@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   THEME TOKENS — CSS Variables driven by data-theme attribute
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-base:        #05070c;
+  --bg-surface:     #0b0f19;
+  --bg-elevated:    #111827;
+  --bg-card:        rgba(11, 15, 25, 0.6);
+  --bg-hover:       rgba(31, 41, 55, 0.6);
+
+  /* Borders */
+  --border-subtle:  #111827;
+  --border-default: #1f2937;
+  --border-strong:  #374151;
+
+  /* Text */
+  --text-primary:   #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted:     #4b5563;
+  --text-heading:   #ffffff;
+
+  /* Brand */
+  --brand-blue:     #2563eb;
+  --brand-teal:     #0d9488;
+  --brand-emerald:  #10b981;
+  --brand-amber:    #f59e0b;
+  --brand-rose:     #f43f5e;
+
+  /* Scrollbar */
+  --scrollbar-track: #05070c;
+  --scrollbar-thumb: #1f2937;
+  --scrollbar-hover: #374151;
+
+  /* Sidebar */
+  --sidebar-bg:     #05070c;
+  --sidebar-border: #111827;
+
+  /* Topbar */
+  --topbar-bg:      rgba(11, 15, 25, 0.75);
+
+  /* Animation orb colors */
+  --orb-1: rgba(37, 99, 235, 0.08);
+  --orb-2: rgba(13, 148, 136, 0.05);
+  --orb-3: rgba(16, 185, 129, 0.04);
+  --grid-line: rgba(31, 41, 55, 0.5);
+}
+
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg-base:        #f0f4f8;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #f8fafc;
+  --bg-card:        rgba(255, 255, 255, 0.85);
+  --bg-hover:       rgba(241, 245, 249, 0.9);
+
+  /* Borders */
+  --border-subtle:  #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-strong:  #94a3b8;
+
+  /* Text */
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --text-heading:   #0f172a;
+
+  /* Brand (same) */
+  --brand-blue:     #2563eb;
+  --brand-teal:     #0d9488;
+  --brand-emerald:  #059669;
+  --brand-amber:    #d97706;
+  --brand-rose:     #e11d48;
+
+  /* Scrollbar */
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-hover: #94a3b8;
+
+  /* Sidebar */
+  --sidebar-bg:     #1e293b;
+  --sidebar-border: #334155;
+
+  /* Topbar */
+  --topbar-bg:      rgba(255, 255, 255, 0.85);
+
+  /* Animation orb colors */
+  --orb-1: rgba(37, 99, 235, 0.06);
+  --orb-2: rgba(13, 148, 136, 0.04);
+  --orb-3: rgba(5, 150, 105, 0.04);
+  --grid-line: rgba(148, 163, 184, 0.3);
+}
+
+/* ============================================================
+   TAILWIND THEME TOKENS
+   ============================================================ */
+@theme {
+  --font-sans:    'Inter', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+
+  --color-brand-navy-950: #05070c;
+  --color-brand-navy-900: #0b0f19;
+  --color-brand-navy-850: #0d1220;
+  --color-brand-navy-800: #111827;
+  --color-brand-navy-700: #1f2937;
+  --color-brand-navy-600: #374151;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
+
+/* ============================================================
+   THEME-AWARE UTILITY CLASSES
+   ============================================================ */
+.theme-bg-base     { background-color: var(--bg-base); }
+.theme-bg-surface  { background-color: var(--bg-surface); }
+.theme-bg-elevated { background-color: var(--bg-elevated); }
+.theme-bg-card     { background-color: var(--bg-card); }
+.theme-border      { border-color: var(--border-default); }
+.theme-text        { color: var(--text-primary); }
+.theme-text-muted  { color: var(--text-secondary); }
+.theme-sidebar     { background-color: var(--sidebar-bg); border-color: var(--sidebar-border); }
+.theme-topbar      { background-color: var(--topbar-bg); border-color: var(--border-subtle); }
+
+/* ============================================================
+   3D / PERSPECTIVE UTILITIES
+   ============================================================ */
+.perspective-800  { perspective: 800px; }
+.perspective-1200 { perspective: 1200px; }
+.preserve-3d      { transform-style: preserve-3d; }
+.backface-hidden  { backface-visibility: hidden; }
+
+/* ============================================================
+   KEYFRAME ANIMATIONS
+   ============================================================ */
+
+/* Floating particles upward drift */
+@keyframes float-up {
+  0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-100vh) translateX(40px) scale(0.8); opacity: 0; }
+}
+
+/* Orb drift / pulsing */
+@keyframes orb-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(40px, -30px) scale(1.05); }
+  66%  { transform: translate(-20px, 40px) scale(0.97); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Slow rotation for geometric shapes */
+@keyframes spin-slow {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+/* SVG path dash animation */
+@keyframes dash-flow {
+  0%   { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes dash-flow-reverse {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1000; }
+}
+
+/* Subtle pulse for orbs */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+
+/* Gentle scale breathe */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50%       { transform: scale(1.12); opacity: 0.8; }
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Shake for form error */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Grid shimmer */
+@keyframes grid-shimmer {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Slide in from left */
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* Dot matrix breathing */
+@keyframes dot-breathe {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.6; }
+}
+
+/* ============================================================
+   ANIMATION CLASSES
+   ============================================================ */
+.animate-float-up       { animation: float-up linear infinite; }
+.animate-orb-drift      { animation: orb-drift ease-in-out infinite; }
+.animate-spin-slow      { animation: spin-slow linear infinite; }
+.animate-spin-reverse   { animation: spin-reverse linear infinite; }
+.animate-dash-flow      { animation: dash-flow linear infinite; }
+.animate-dash-reverse   { animation: dash-flow-reverse linear infinite; }
+.animate-pulse-glow     { animation: pulse-glow ease-in-out infinite; }
+.animate-breathe        { animation: breathe ease-in-out infinite; }
+.animate-fade-in        { animation: fade-in 0.4s ease forwards; }
+.animate-shake          { animation: shake 0.4s ease; }
+.animate-slide-in       { animation: slide-in-left 0.3s ease forwards; }
+.animate-dot-breathe    { animation: dot-breathe ease-in-out infinite; }
+.animate-pulse-subtle   { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* ============================================================
+   CARD 3D HOVER EFFECT
+   ============================================================ */
+.card-3d {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-3d:hover {
+  transform: translateY(-2px) rotateX(1deg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   GLASSMORPHISM CARD
+   ============================================================ */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+}
+
+/* ============================================================
+   SIDEBAR ACTIVE STATE GLOW
+   ============================================================ */
+.nav-active-glow {
+  box-shadow: inset 2px 0 0 var(--brand-blue), 0 0 12px rgba(37, 99, 235, 0.15);
+}
