@@ -7,7 +7,8 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  LogOut
+  LogOut,
+  Zap
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -25,11 +26,12 @@ export default function Sidebar({
   const isDark = theme === 'dark';
 
   const menuItems = [
-    { id: 'dashboard',      label: 'Dashboard',      icon: LayoutDashboard },
-    { id: 'sla-performance', label: 'SLA Performance', icon: BarChart3 },
-    { id: 'exceptions',     label: 'Exceptions',     icon: AlertTriangle },
-    { id: 'reports',        label: 'Reports',        icon: FileSpreadsheet },
-    { id: 'settings',       label: 'Settings',       icon: Settings },
+    { id: 'dashboard',         label: 'Dashboard',         icon: LayoutDashboard },
+    { id: 'sla-miss-analysis',  label: 'SLA Miss Analysis',  icon: BarChart3 },
+    { id: 'live-tracker',      label: 'Live Status Tracker', icon: Zap, isLive: true },
+    { id: 'exceptions',        label: 'Exceptions',        icon: AlertTriangle },
+    { id: 'reports',           label: 'Reports',           icon: FileSpreadsheet },
+    { id: 'settings',          label: 'Settings',          icon: Settings },
   ];
 
   const handleNavClick = (pageId) => {
@@ -143,7 +145,17 @@ export default function Sidebar({
                 className="flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
                 style={{ color: isActive ? '#ffffff' : '#6b7280' }}
               />
-              {!isCollapsed && <span className="truncate">{item.label}</span>}
+              {!isCollapsed && (
+                <span className="truncate flex items-center gap-1.5">
+                  {item.label}
+                  {item.isLive && (
+                    <span className="relative flex h-1.5 w-1.5 flex-shrink-0" title="Live status active">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                    </span>
+                  )}
+                </span>
+              )}
 
               {/* Active left accent */}
               {isActive && (

@@ -37,28 +37,32 @@ export default function AnimatedBackground() {
       className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
       aria-hidden="true"
     >
-      {/* === Subtle dot matrix grid === */}
+      {/* === Deep Shifting Mesh Background === */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 animate-mesh-shift login-mesh"
         style={{
-          backgroundImage: `radial-gradient(circle, var(--grid-line) 1px, transparent 1px)`,
-          backgroundSize: '32px 32px',
-          opacity: isDark ? 0.5 : 0.4,
+          backgroundImage: isDark
+            ? 'linear-gradient(125deg, #020617 0%, #0b1b3a 28%, #0c2744 52%, #042f2e 78%, #020617 100%)'
+            : 'linear-gradient(125deg, #f1f5f9 0%, #e2e8f0 35%, #cbd5e1 65%, #f1f5f9 100%)',
+          backgroundSize: '220% 220%',
+          opacity: 0.95,
         }}
       />
 
-      {/* === Perspective 3D diagonal grid lines === */}
+      {/* === Perspective 3D Grid Floor === */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 animate-grid-pan"
         style={{
           backgroundImage: `
             linear-gradient(var(--grid-line) 1px, transparent 1px),
             linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)
           `,
           backgroundSize: '80px 80px',
-          transform: 'perspective(600px) rotateX(20deg) scale(1.4)',
-          transformOrigin: 'center 70%',
-          opacity: isDark ? 0.12 : 0.08,
+          transform: 'perspective(700px) rotateX(52deg) scale(1.85) translateY(12%)',
+          transformOrigin: 'center 85%',
+          opacity: isDark ? 0.16 : 0.12,
+          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent 78%)',
+          WebkitMaskImage: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent 78%)',
         }}
       />
 
@@ -76,7 +80,8 @@ export default function AnimatedBackground() {
             transform: 'translate(-50%, -50%)',
             animationDuration: orb.duration,
             animationDelay:    orb.delay,
-            filter: 'blur(1px)',
+            filter: 'blur(4px)',
+            opacity: isDark ? 0.7 : 0.4,
           }}
         />
       ))}
@@ -85,7 +90,7 @@ export default function AnimatedBackground() {
       {particles.map(p => (
         <div
           key={p.id}
-          className="absolute bottom-0 animate-float-up rounded-full"
+          className="absolute bottom-0 animate-float-up pointer-events-none"
           style={{
             left:              p.left,
             width:             p.width,
@@ -94,10 +99,11 @@ export default function AnimatedBackground() {
             animationDuration: p.duration,
             animationDelay:    p.delay,
             background:        isDark
-              ? `rgba(37, 99, 235, ${p.opacity})`
+              ? `rgba(59, 130, 246, ${p.opacity})`
               : `rgba(37, 99, 235, ${p.opacity * 0.5})`,
             borderRadius:      p.isSquare ? '2px' : '50%',
             transform:         p.isSquare ? 'rotate(45deg)' : undefined,
+            boxShadow:         isDark ? `0 0 8px rgba(59, 130, 246, ${p.opacity})` : 'none',
           }}
         />
       ))}
@@ -107,7 +113,7 @@ export default function AnimatedBackground() {
         className="absolute top-0 left-0 right-0 h-px"
         style={{
           background: `linear-gradient(to right, transparent, var(--brand-blue), transparent)`,
-          opacity: isDark ? 0.3 : 0.15,
+          opacity: isDark ? 0.35 : 0.2,
         }}
       />
     </div>

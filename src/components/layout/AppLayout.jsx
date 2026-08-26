@@ -16,7 +16,7 @@ export default function AppLayout({
   searchQuery,
   setSearchQuery
 }) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isOpenMobile, setIsOpenMobile] = useState(false);
   const { theme } = useTheme();
   const isDark = theme === 'dark';

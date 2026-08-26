@@ -11,11 +11,19 @@ import {
 } from 'recharts';
 import ChartCard from './ChartCard';
 import { formatPercentage } from '../../utils/formatters';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function MonthlyTrendChart({
   data = [],
   isLoading = false
 }) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  const gridColor = isDark ? '#1f2937' : '#e2e8f0';
+  const textColor = isDark ? '#9ca3af' : '#475569';
+  const borderAxis = isDark ? '#374151' : '#cbd5e1';
+
   const chartData = React.useMemo(() => {
     return data.map(item => ({
       ...item,
@@ -31,22 +39,22 @@ export default function MonthlyTrendChart({
       const gapSign = targetGap >= 0 ? '+' : '';
       
       return (
-        <div className="bg-brand-navy-950 border border-brand-navy-700/80 p-3 rounded-lg shadow-xl text-left select-none text-xs">
-          <p className="font-bold text-gray-200 mb-1.5">{data.month}</p>
+        <div className="bg-white dark:bg-brand-navy-950 border border-gray-200 dark:border-brand-navy-700/80 p-3 rounded-lg shadow-xl text-left select-none text-xs">
+          <p className="font-bold text-gray-800 dark:text-gray-200 mb-1.5">{data.month}</p>
           <div className="space-y-1 font-medium">
             <p className="flex justify-between items-center gap-6">
-              <span className="text-gray-400">SLA Compliance:</span>
-              <span className={`font-bold ${data.compliance >= 95 ? 'text-emerald-400' : 'text-rose-400'}`}>
+              <span className="text-gray-500 dark:text-gray-400">SLA Compliance:</span>
+              <span className={`font-bold ${data.compliance >= 95 ? 'text-emerald-500' : 'text-rose-500'}`}>
                 {formatPercentage(data.compliance)}
               </span>
             </p>
             <p className="flex justify-between items-center gap-6">
-              <span className="text-gray-400">Target Threshold:</span>
-              <span className="text-gray-300 font-bold">95.0%</span>
+              <span className="text-gray-500 dark:text-gray-400">Target Threshold:</span>
+              <span className="text-gray-700 dark:text-gray-300 font-bold">95.0%</span>
             </p>
             <p className="flex justify-between items-center gap-6">
-              <span className="text-gray-400">Target Gap:</span>
-              <span className={`font-bold ${targetGap >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+              <span className="text-gray-500 dark:text-gray-400">Target Gap:</span>
+              <span className={`font-bold ${targetGap >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
                 {gapSign}{targetGap.toFixed(1)}%
               </span>
             </p>
@@ -68,9 +76,9 @@ export default function MonthlyTrendChart({
         cy={cy}
         r={5}
         fill={isMet ? '#10b981' : '#f43f5e'}
-        stroke="#0b0f19" // border match background
+        stroke={isDark ? '#0b0f19' : '#ffffff'}
         strokeWidth={1.5}
-        className="transition-transform duration-200 hover:scale-125"
+        className="transition-transform duration-200 hover:scale-125 cursor-pointer"
       />
     );
   };
@@ -87,19 +95,19 @@ export default function MonthlyTrendChart({
           data={chartData}
           margin={{ top: 15, right: 10, left: -20, bottom: 0 }}
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
           <XAxis
             dataKey="displayMonth"
-            stroke="#9ca3af"
-            tick={{ fontSize: 10, fill: '#9ca3af' }}
-            axisLine={{ stroke: '#374151' }}
-            tickLine={{ stroke: '#374151' }}
+            stroke={textColor}
+            tick={{ fontSize: 10, fill: textColor }}
+            axisLine={{ stroke: borderAxis }}
+            tickLine={{ stroke: borderAxis }}
           />
           <YAxis
-            stroke="#9ca3af"
-            tick={{ fontSize: 10, fill: '#9ca3af' }}
-            axisLine={{ stroke: '#374151' }}
-            tickLine={{ stroke: '#374151' }}
+            stroke={textColor}
+            tick={{ fontSize: 10, fill: textColor }}
+            axisLine={{ stroke: borderAxis }}
+            tickLine={{ stroke: borderAxis }}
             domain={[85, 100]}
           />
           <Tooltip content={<CustomTooltip />} />

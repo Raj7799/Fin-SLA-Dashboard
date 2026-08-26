@@ -11,13 +11,13 @@ export default function ChartCard({
   headerAction
 }) {
   return (
-    <div className={`bg-brand-navy-950/30 border border-brand-navy-800/80 rounded-xl p-5 shadow-lg flex flex-col min-h-[350px] transition-all duration-300 hover:shadow-xl hover:border-brand-navy-700/60 ${className}`}>
+    <div className={`bg-white/65 dark:bg-[#0b0f19]/45 border border-gray-200/60 dark:border-brand-navy-850 p-5 rounded-2xl shadow-md backdrop-blur-md flex flex-col min-h-[350px] transition-all duration-300 hover:shadow-lg hover:border-blue-500/20 dark:hover:border-blue-500/10 ${className}`}>
       
       {/* Header Info */}
       <div className="flex items-center justify-between mb-5 select-none">
         <div>
-          <h3 className="text-sm font-bold text-gray-100 tracking-wide uppercase">{title}</h3>
-          {subtitle && <p className="text-[11px] text-gray-400 mt-1 font-medium">{subtitle}</p>}
+          <h3 className="text-xs font-bold text-gray-700 dark:text-gray-200 tracking-wide uppercase font-heading">{title}</h3>
+          {subtitle && <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 font-medium">{subtitle}</p>}
         </div>
         {headerAction && <div>{headerAction}</div>}
       </div>

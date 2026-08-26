@@ -4,6 +4,8 @@ import AppLayout from './components/layout/AppLayout';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import SlaPerformancePage from './pages/SlaPerformancePage';
+import SlaMissAnalysisPage from './pages/SlaMissAnalysisPage';
+import SlaLiveTrackerPage from './pages/SlaLiveTrackerPage';
 import ExceptionsPage from './pages/ExceptionsPage';
 import ReportsPage from './pages/ReportsPage';
 import SettingsPage from './pages/SettingsPage';
@@ -49,6 +51,14 @@ export default function App() {
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
     setActivePage('dashboard');
+    handleRefresh(); // Auto refresh on login success
+  };
+
+  // Update a single record (e.g. assigning root-cause analysis reasons)
+  const handleUpdateRecord = (updatedFields) => {
+    setRecords((prev) =>
+      prev.map((r) => (r.id === updatedFields.id ? { ...r, ...updatedFields } : r))
+    );
   };
 
   // 4. Render Gateway
@@ -71,15 +81,21 @@ export default function App() {
             onRefresh={handleRefresh}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
+            onUpdateRecord={handleUpdateRecord}
           />
         );
-      case 'sla-performance':
+      case 'sla-miss-analysis':
         return (
-          <SlaPerformancePage
+          <SlaMissAnalysisPage
             records={records}
             isLoading={isRefreshing}
+            onRefresh={handleRefresh}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
           />
         );
+      case 'live-tracker':
+        return <SlaLiveTrackerPage />;
       case 'exceptions':
         return (
           <ExceptionsPage
@@ -99,6 +115,7 @@ export default function App() {
             onRefresh={handleRefresh}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
+            onUpdateRecord={handleUpdateRecord}
           />
         );
     }

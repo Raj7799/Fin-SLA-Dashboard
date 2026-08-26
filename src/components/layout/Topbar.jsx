@@ -17,9 +17,11 @@ export default function Topbar({
   const getTitles = () => {
     switch (activePage) {
       case 'dashboard':
-        return { title: 'Compliance Dashboard', subtitle: 'Real-time SLA compliance monitoring — Financial & Commercial operations' };
-      case 'sla-performance':
-        return { title: 'SLA Performance', subtitle: 'Historical execution volume, variance analytics, and performance trends' };
+        return { title: 'FIN-Commercial SLA Compliance Dashboard', subtitle: 'Real-time SLA compliance monitoring — Financial & Commercial operations' };
+      case 'sla-miss-analysis':
+        return { title: 'SLA Miss Analysis', subtitle: 'RCA incident diagnostics and root-cause attributions' };
+      case 'live-tracker':
+        return { title: 'Live SLA Status Tracker', subtitle: 'Real-time medallion level tracking and source compliance percentages' };
       case 'exceptions':
         return { title: 'SLA Exceptions', subtitle: 'Operational exceptions and root-cause investigation workspace' };
       case 'reports':
@@ -78,49 +80,14 @@ export default function Topbar({
       {/* Right: Search + Refresh + Theme Toggle + Bell */}
       <div className="flex items-center gap-3 sm:gap-4">
 
-        {/* Global Search */}
-        {activePage !== 'settings' && (
-          <div className="relative hidden lg:flex items-center">
-            <Search
-              className="absolute left-3 h-3.5 w-3.5"
-              style={{ color: 'var(--text-muted)' }}
-            />
-            <input
-              type="text"
-              placeholder="Search execution, rule..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="rounded-lg pl-9 pr-3 py-1.5 text-xs focus:outline-none w-52 transition-all duration-200 focus:w-64"
-              style={{
-                background: 'var(--bg-base)',
-                border: '1px solid var(--border-default)',
-                color: 'var(--text-primary)',
-              }}
-            />
-          </div>
-        )}
-
-        {/* Last Updated + Refresh */}
+        {/* Last Updated */}
         <div className="flex items-center gap-2">
           <span
             className="hidden md:inline-block text-[10px] font-medium select-none"
             style={{ color: 'var(--text-muted)' }}
           >
-            {lastUpdated ? lastUpdated.toLocaleTimeString() : '—'}
+            Last update: {lastUpdated ? lastUpdated.toLocaleTimeString() : '—'}
           </span>
-          <button
-            onClick={onRefresh}
-            disabled={isRefreshing}
-            className="p-2 rounded-lg cursor-pointer transition-all duration-200 disabled:opacity-40"
-            style={{
-              border: '1px solid var(--border-default)',
-              background: 'var(--bg-elevated)',
-              color: 'var(--text-secondary)',
-            }}
-            aria-label="Refresh dashboard data"
-          >
-            <RefreshCw size={13} className={isRefreshing ? 'animate-spin text-blue-400' : ''} />
-          </button>
         </div>
 
         {/* Theme Toggle */}
