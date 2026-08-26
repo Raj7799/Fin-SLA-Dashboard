@@ -39,88 +39,6 @@ function Particle({ i }) {
   );
 }
 
-function RisingDollar({ i }) {
-  const left = `${sr(i * 17) * 100}%`;
-  const size = 14 + sr(i * 19) * 22;
-  const delay = sr(i * 23) * 18;
-  const duration = 12 + sr(i * 29) * 16;
-  const tones = ['#34d399', '#22d3ee', '#60a5fa', '#6ee7b7'];
-
-  return (
-    <span
-      className="absolute bottom-0 animate-float-up pointer-events-none select-none font-black"
-      style={{
-        left,
-        fontSize: `${size}px`,
-        animationDuration: `${duration}s`,
-        animationDelay: `${delay}s`,
-        color: tones[i % tones.length],
-        opacity: 0.18 + sr(i * 31) * 0.28,
-        fontFamily: 'Outfit, sans-serif',
-        textShadow: `0 0 18px ${tones[i % tones.length]}`,
-        letterSpacing: '-0.04em',
-      }}
-    >
-      $
-    </span>
-  );
-}
-
-const SCENE_MESH =
-  'linear-gradient(125deg, #020617 0%, #0b1b3a 28%, #0c2744 52%, #042f2e 78%, #020617 100%)';
-
-function SceneBackdrop({ particles, dollars }) {
-  return (
-    <>
-      <div
-        className="absolute inset-0 animate-mesh-shift login-mesh"
-        style={{ backgroundImage: SCENE_MESH }}
-      />
-      <div
-        className="absolute inset-0 animate-grid-pan"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(56,189,248,0.09) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '80px 80px',
-          transform: 'perspective(700px) rotateX(52deg) scale(1.85) translateY(12%)',
-          transformOrigin: 'center 85%',
-          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent 78%)',
-        }}
-      />
-      <div
-        className="absolute -top-24 -left-16 w-[520px] h-[520px] rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(59,130,246,0.28) 0%, transparent 68%)',
-        }}
-      />
-      <div
-        className="absolute bottom-0 right-0 w-[460px] h-[460px] rounded-full pointer-events-none animate-orb-drift"
-        style={{
-          background: 'radial-gradient(circle, rgba(16,185,129,0.22) 0%, transparent 70%)',
-          animationDuration: '26s',
-        }}
-      />
-      <div
-        className="absolute top-1/3 right-[12%] w-[240px] h-[240px] rounded-full pointer-events-none animate-breathe"
-        style={{
-          background: 'radial-gradient(circle, rgba(34,211,238,0.16) 0%, transparent 70%)',
-          animationDuration: '12s',
-        }}
-      />
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {particles.map((i) => (
-          <Particle key={`p-${i}`} i={i} />
-        ))}
-        {dollars.map((i) => (
-          <RisingDollar key={`d-${i}`} i={i} />
-        ))}
-      </div>
-    </>
-  );
-}
-
 function HeroCore() {
   const rings = [
     { inset: 0, color: 'rgba(59,130,246,0.55)', width: 2 },
@@ -175,16 +93,16 @@ function HeroCore() {
 
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 select-none">
         <span
-          className="login-gradient-text font-black leading-none tracking-tight"
-          style={{ fontSize: 'clamp(4.2rem, 9vw, 6.4rem)', fontFamily: 'Outfit, sans-serif' }}
+          className="login-gradient-text font-black leading-none tracking-tighter"
+          style={{ fontSize: 'clamp(5.5rem, 12vw, 8.5rem)', fontFamily: 'Outfit, sans-serif' }}
         >
-          SLA
+          95
         </span>
         <span
-          className="mt-1 text-lg font-bold tracking-[0.28em]"
-          style={{ color: 'rgba(147,197,253,0.85)', fontFamily: 'Outfit, sans-serif' }}
+          className="mt-1 text-[11px] font-bold uppercase tracking-[0.42em]"
+          style={{ color: 'rgba(147,197,253,0.7)' }}
         >
-          95%
+          SLA
         </span>
       </div>
     </div>
@@ -271,9 +189,6 @@ export default function LoginPage({ onLoginSuccess }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const particleIndices = useMemo(() => Array.from({ length: 28 }, (_, i) => i), []);
-  const dollarIndices = useMemo(() => Array.from({ length: 16 }, (_, i) => i), []);
-  const cardParticleIndices = useMemo(() => Array.from({ length: 10 }, (_, i) => i + 40), []);
-  const cardDollarIndices = useMemo(() => Array.from({ length: 8 }, (_, i) => i + 20), []);
 
   const validateForm = () => {
     const e = {};
@@ -332,7 +247,52 @@ export default function LoginPage({ onLoginSuccess }) {
         onMouseMove={onSceneMove}
         onMouseLeave={() => setTilt({ x: 0, y: 0 })}
       >
-        <SceneBackdrop particles={particleIndices} dollars={dollarIndices} />
+        <div
+          className="absolute inset-0 animate-mesh-shift login-mesh"
+          style={{
+            backgroundImage:
+              'linear-gradient(125deg, #020617 0%, #0b1b3a 28%, #0c2744 52%, #042f2e 78%, #020617 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 animate-grid-pan"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(56,189,248,0.09) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px',
+            transform: 'perspective(700px) rotateX(52deg) scale(1.85) translateY(12%)',
+            transformOrigin: 'center 85%',
+            maskImage: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent 78%)',
+          }}
+        />
+        <div
+          className="absolute -top-24 -left-16 w-[520px] h-[520px] rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(59,130,246,0.28) 0%, transparent 68%)',
+          }}
+        />
+        <div
+          className="absolute bottom-0 right-0 w-[460px] h-[460px] rounded-full pointer-events-none animate-orb-drift"
+          style={{
+            background: 'radial-gradient(circle, rgba(16,185,129,0.22) 0%, transparent 70%)',
+            animationDuration: '26s',
+          }}
+        />
+        <div
+          className="absolute top-1/3 right-[12%] w-[240px] h-[240px] rounded-full pointer-events-none animate-breathe"
+          style={{
+            background: 'radial-gradient(circle, rgba(34,211,238,0.16) 0%, transparent 70%)',
+            animationDuration: '12s',
+          }}
+        />
+
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {particleIndices.map((i) => (
+            <Particle key={i} i={i} />
+          ))}
+        </div>
 
         <div
           className="absolute left-8 top-[18%] select-none pointer-events-none opacity-[0.07]"
@@ -375,31 +335,47 @@ export default function LoginPage({ onLoginSuccess }) {
         </div>
       </div>
 
-      <div className="w-full lg:w-[42%] flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
-        <SceneBackdrop particles={particleIndices} dollars={dollarIndices} />
+      <div
+        className="w-full lg:w-[42%] flex items-center justify-center p-6 sm:p-12 relative"
+        style={{
+          background: isDark
+            ? 'linear-gradient(180deg, rgba(3,7,18,0.4) 0%, rgba(8,15,32,0.92) 100%)'
+            : 'linear-gradient(180deg, rgba(241,245,249,0.9), rgba(255,255,255,0.96))',
+        }}
+      >
+        <div
+          className="absolute pointer-events-none animate-breathe"
+          style={{
+            top: '22%',
+            right: '8%',
+            width: '340px',
+            height: '340px',
+            background: isDark
+              ? 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)'
+              : 'radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%)',
+            borderRadius: '50%',
+            animationDuration: '16s',
+          }}
+        />
 
         <div
-          className="relative z-10 w-full max-w-[400px] rounded-2xl p-8 shadow-2xl animate-fade-in login-card-border overflow-hidden"
+          className="w-full max-w-[400px] rounded-2xl p-8 shadow-2xl animate-fade-in login-card-border overflow-hidden"
           style={{
+            background: isDark
+              ? 'linear-gradient(165deg, rgba(8,15,32,0.95) 0%, rgba(5,7,12,0.92) 100%)'
+              : 'linear-gradient(165deg, rgba(255,255,255,0.98), rgba(248,250,252,0.95))',
+            backdropFilter: 'blur(22px)',
             transform: `perspective(900px) rotateY(${tilt.x * -4}deg)`,
             transition: 'transform 0.4s ease-out',
           }}
         >
-          <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
-            <SceneBackdrop particles={cardParticleIndices} dollars={cardDollarIndices} />
-          </div>
           <div
-            className="pointer-events-none absolute inset-0 rounded-2xl"
-            style={{ background: 'rgba(2,6,23,0.28)' }}
-          />
-          <div
-            className="pointer-events-none absolute inset-y-0 w-16 opacity-20 animate-sheen z-10"
+            className="pointer-events-none absolute inset-y-0 w-16 opacity-20 animate-sheen"
             style={{
               background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent)',
             }}
           />
 
-          <div className="relative z-10">
           <div className="mb-7 text-center select-none">
             <div
               className="h-14 w-14 rounded-2xl flex items-center justify-center font-black text-white text-lg mx-auto mb-5"
@@ -413,7 +389,7 @@ export default function LoginPage({ onLoginSuccess }) {
             </div>
             <h2
               className="text-2xl font-extrabold tracking-tight"
-              style={{ color: '#ffffff', fontFamily: 'Outfit, sans-serif' }}
+              style={{ color: 'var(--text-heading)', fontFamily: 'Outfit, sans-serif' }}
             >
               Sign in
             </h2>
@@ -511,7 +487,6 @@ export default function LoginPage({ onLoginSuccess }) {
           <p className="text-center text-[10px] mt-5 font-medium" style={{ color: 'var(--text-muted)' }}>
             Demo: <span style={{ color: '#3b82f6' }}>admin@fin.com</span> / password123
           </p>
-          </div>
         </div>
       </div>
     </div>
