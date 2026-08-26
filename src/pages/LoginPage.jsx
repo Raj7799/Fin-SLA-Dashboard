@@ -5,158 +5,282 @@ import Input from '../components/ui/Input';
 import { useTheme } from '../context/ThemeContext';
 import mockUsers from '../data/mockUsers.json';
 
-/* ── deterministic pseudo-random so positions are stable ── */
 function sr(seed) {
   const x = Math.sin(seed + 1) * 10000;
   return x - Math.floor(x);
 }
 
-/* ── Animated floating particle ── */
 function Particle({ i }) {
-  const left     = `${sr(i * 3) * 100}%`;
-  const size     = 2 + sr(i * 7) * 5;
-  const delay    = sr(i * 11) * 24;
-  const duration = 18 + sr(i * 13) * 22;
-  const isSquare = i % 4 === 0;
-  const isDiamond = i % 4 === 2;
+  const left = `${sr(i * 3) * 100}%`;
+  const size = 2 + sr(i * 7) * 6;
+  const delay = sr(i * 11) * 24;
+  const duration = 16 + sr(i * 13) * 20;
+  const hues = [
+    'rgba(59,130,246,0.7)',
+    'rgba(34,211,238,0.55)',
+    'rgba(16,185,129,0.5)',
+  ];
 
   return (
     <div
       className="absolute bottom-0 animate-float-up pointer-events-none"
       style={{
         left,
-        width:  `${size}px`,
+        width: `${size}px`,
         height: `${size}px`,
         animationDuration: `${duration}s`,
-        animationDelay:    `${delay}s`,
-        background: i % 3 === 0
-          ? 'rgba(37, 99, 235, 0.6)'
-          : i % 3 === 1
-          ? 'rgba(13, 148, 136, 0.4)'
-          : 'rgba(16, 185, 129, 0.35)',
-        borderRadius: isSquare ? '2px' : isDiamond ? '0' : '50%',
-        transform:    isDiamond ? 'rotate(45deg)' : isSquare ? 'rotate(20deg)' : undefined,
-        opacity: 0.5 + sr(i * 5) * 0.4,
+        animationDelay: `${delay}s`,
+        background: hues[i % 3],
+        borderRadius: i % 4 === 0 ? '2px' : '50%',
+        boxShadow: `0 0 10px ${hues[i % 3]}`,
+        opacity: 0.45 + sr(i * 5) * 0.4,
       }}
     />
   );
 }
 
-/* ── Animated SVG data-flow network ── */
-function DataFlowSVG() {
+function RisingDollar({ i }) {
+  const left = `${sr(i * 17) * 100}%`;
+  const size = 14 + sr(i * 19) * 22;
+  const delay = sr(i * 23) * 18;
+  const duration = 12 + sr(i * 29) * 16;
+  const tones = ['#34d399', '#22d3ee', '#60a5fa', '#6ee7b7'];
+
   return (
-    <svg viewBox="0 0 420 130" className="w-full" aria-hidden="true">
-      {/* Background track paths */}
-      <path d="M 30 65 Q 105 25 190 65 T 390 65" fill="none" stroke="rgba(31,41,55,0.8)" strokeWidth="1.5" />
-      <path d="M 30 65 Q 105 100 190 65 T 390 65" fill="none" stroke="rgba(31,41,55,0.5)" strokeWidth="1" />
-
-      {/* Animated data flow — primary blue line */}
-      <path
-        d="M 30 65 Q 105 25 190 65 T 390 65"
-        fill="none"
-        stroke="#2563eb"
-        strokeWidth="2"
-        strokeDasharray="12 6"
-        className="animate-dash-flow"
-        style={{ animationDuration: '8s' }}
-      />
-      {/* Secondary teal line flowing opposite */}
-      <path
-        d="M 30 65 Q 105 100 190 65 T 390 65"
-        fill="none"
-        stroke="#0d9488"
-        strokeWidth="1.5"
-        strokeDasharray="8 8"
-        className="animate-dash-reverse"
-        style={{ animationDuration: '12s' }}
-      />
-
-      {/* Vertical connector lines */}
-      <line x1="190" y1="45" x2="190" y2="85" stroke="rgba(37,99,235,0.3)" strokeWidth="1" strokeDasharray="3 3" />
-      <line x1="310" y1="55" x2="310" y2="80" stroke="rgba(13,148,136,0.3)" strokeWidth="1" strokeDasharray="3 3" />
-
-      {/* Animated pulsing nodes */}
-      <circle cx="30"  cy="65" r="6" fill="#05070c" stroke="#10b981" strokeWidth="2" />
-      <circle cx="30"  cy="65" r="3" fill="#10b981">
-        <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite" />
-      </circle>
-
-      <circle cx="110" cy="40" r="6" fill="#05070c" stroke="#2563eb" strokeWidth="2" />
-      <circle cx="110" cy="40" r="3" fill="#2563eb">
-        <animate attributeName="r" values="3;5;3" dur="2.5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.4;1" dur="2.5s" repeatCount="indefinite" />
-      </circle>
-
-      <circle cx="190" cy="65" r="6" fill="#05070c" stroke="#10b981" strokeWidth="2" />
-      <circle cx="190" cy="65" r="3" fill="#10b981">
-        <animate attributeName="r" values="3;5;3" dur="1.8s" repeatCount="indefinite" />
-      </circle>
-
-      <circle cx="270" cy="85" r="7" fill="#05070c" stroke="#f59e0b" strokeWidth="2">
-        <animate attributeName="stroke-opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="270" cy="85" r="3.5" fill="#f59e0b">
-        <animate attributeName="r" values="3.5;6;3.5" dur="3s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" />
-      </circle>
-
-      <circle cx="390" cy="65" r="6" fill="#05070c" stroke="#2563eb" strokeWidth="2" />
-      <circle cx="390" cy="65" r="3" fill="#2563eb">
-        <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite" />
-      </circle>
-
-      {/* Node labels */}
-      <text x="30"  y="84"  fill="#6b7280" fontSize="8.5" textAnchor="middle" fontFamily="Inter, sans-serif" fontWeight="600">Ingestion</text>
-      <text x="110" y="22"  fill="#6b7280" fontSize="8.5" textAnchor="middle" fontFamily="Inter, sans-serif" fontWeight="600">Day 1 Cutoff</text>
-      <text x="190" y="84"  fill="#6b7280" fontSize="8.5" textAnchor="middle" fontFamily="Inter, sans-serif" fontWeight="600">Compute</text>
-      <text x="270" y="104" fill="#f59e0b" fontSize="8.5" textAnchor="middle" fontFamily="Inter, sans-serif" fontWeight="700">RCA Incident</text>
-      <text x="390" y="84"  fill="#6b7280" fontSize="8.5" textAnchor="middle" fontFamily="Inter, sans-serif" fontWeight="600">Reporting</text>
-    </svg>
+    <span
+      className="absolute bottom-0 animate-float-up pointer-events-none select-none font-black"
+      style={{
+        left,
+        fontSize: `${size}px`,
+        animationDuration: `${duration}s`,
+        animationDelay: `${delay}s`,
+        color: tones[i % tones.length],
+        opacity: 0.18 + sr(i * 31) * 0.28,
+        fontFamily: 'Outfit, sans-serif',
+        textShadow: `0 0 18px ${tones[i % tones.length]}`,
+        letterSpacing: '-0.04em',
+      }}
+    >
+      $
+    </span>
   );
 }
 
-/* ── Rotating geometric ring ── */
-function GeometricRing({ size, duration, color, reverse, style }) {
+const SCENE_MESH =
+  'linear-gradient(125deg, #020617 0%, #0b1b3a 28%, #0c2744 52%, #042f2e 78%, #020617 100%)';
+
+function SceneBackdrop({ particles, dollars }) {
+  return (
+    <>
+      <div
+        className="absolute inset-0 animate-mesh-shift login-mesh"
+        style={{ backgroundImage: SCENE_MESH }}
+      />
+      <div
+        className="absolute inset-0 animate-grid-pan"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(56,189,248,0.09) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+          transform: 'perspective(700px) rotateX(52deg) scale(1.85) translateY(12%)',
+          transformOrigin: 'center 85%',
+          maskImage: 'linear-gradient(to top, rgba(0,0,0,0.85), transparent 78%)',
+        }}
+      />
+      <div
+        className="absolute -top-24 -left-16 w-[520px] h-[520px] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(59,130,246,0.28) 0%, transparent 68%)',
+        }}
+      />
+      <div
+        className="absolute bottom-0 right-0 w-[460px] h-[460px] rounded-full pointer-events-none animate-orb-drift"
+        style={{
+          background: 'radial-gradient(circle, rgba(16,185,129,0.22) 0%, transparent 70%)',
+          animationDuration: '26s',
+        }}
+      />
+      <div
+        className="absolute top-1/3 right-[12%] w-[240px] h-[240px] rounded-full pointer-events-none animate-breathe"
+        style={{
+          background: 'radial-gradient(circle, rgba(34,211,238,0.16) 0%, transparent 70%)',
+          animationDuration: '12s',
+        }}
+      />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((i) => (
+          <Particle key={`p-${i}`} i={i} />
+        ))}
+        {dollars.map((i) => (
+          <RisingDollar key={`d-${i}`} i={i} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+function HeroCore() {
+  const rings = [
+    { inset: 0, color: 'rgba(59,130,246,0.55)', width: 2 },
+    { inset: 28, color: 'rgba(34,211,238,0.4)', width: 1.5 },
+    { inset: 56, color: 'rgba(16,185,129,0.35)', width: 1.5 },
+    { inset: 88, color: 'rgba(147,197,253,0.25)', width: 1 },
+  ];
+
+  return (
+    <div className="relative w-[min(52vw,480px)] aspect-square preserve-3d">
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full animate-glow-pulse pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(59,130,246,0.55) 0%, rgba(34,211,238,0.18) 38%, transparent 70%)',
+        }}
+      />
+
+      <div className="absolute inset-0 preserve-3d animate-rotate-y-3d">
+        {rings.map((ring, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              inset: ring.inset,
+              border: `${ring.width}px solid ${ring.color}`,
+              boxShadow: `0 0 24px ${ring.color}, inset 0 0 18px ${ring.color}`,
+              transform: `rotateX(${66 + i * 4}deg)`,
+            }}
+          />
+        ))}
+        {[0, 60, 120, 180, 240, 300].map((deg) => (
+          <div
+            key={deg}
+            className="absolute left-1/2 top-1/2 w-3 h-3 -ml-1.5 -mt-1.5 rounded-full"
+            style={{
+              background: deg % 120 === 0 ? '#22d3ee' : '#3b82f6',
+              boxShadow: '0 0 16px currentColor',
+              transform: `rotateY(${deg}deg) translateZ(210px)`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div
+        className="absolute inset-[18%] rounded-full animate-rotate-z-tilt pointer-events-none"
+        style={{
+          border: '1px dashed rgba(148,163,184,0.25)',
+          boxShadow: 'inset 0 0 40px rgba(37,99,235,0.12)',
+        }}
+      />
+
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 select-none">
+        <span
+          className="login-gradient-text font-black leading-none tracking-tight"
+          style={{ fontSize: 'clamp(4.2rem, 9vw, 6.4rem)', fontFamily: 'Outfit, sans-serif' }}
+        >
+          SLA
+        </span>
+        <span
+          className="mt-1 text-lg font-bold tracking-[0.28em]"
+          style={{ color: 'rgba(147,197,253,0.85)', fontFamily: 'Outfit, sans-serif' }}
+        >
+          95%
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function FloatChip({ value, accent, className, delay }) {
   return (
     <div
-      className={reverse ? 'animate-spin-reverse' : 'animate-spin-slow'}
+      className={`absolute animate-float-3d rounded-2xl px-5 py-4 select-none ${className}`}
       style={{
-        width: size,
-        height: size,
-        border: `1px solid ${color}`,
-        borderRadius: '50%',
-        animationDuration: duration,
-        ...style,
+        animationDelay: delay,
+        background: 'linear-gradient(160deg, rgba(15,23,42,0.85), rgba(5,7,12,0.55))',
+        border: `1px solid ${accent}55`,
+        boxShadow: `0 18px 50px rgba(0,0,0,0.45), 0 0 28px ${accent}22`,
+        backdropFilter: 'blur(16px)',
+        transform: 'translateZ(80px)',
       }}
-    />
+    >
+      <p
+        className="font-black text-3xl leading-none"
+        style={{ color: accent, fontFamily: 'Outfit, sans-serif' }}
+      >
+        {value}
+      </p>
+    </div>
   );
 }
 
-/* ═══════════════════════════════════════════════
-   LOGIN PAGE
-═══════════════════════════════════════════════ */
+function PipelineOrbs() {
+  const nodes = [
+    { color: '#34d399', glow: 'rgba(52,211,153,0.55)' },
+    { color: '#3b82f6', glow: 'rgba(59,130,246,0.55)' },
+    { color: '#f59e0b', glow: 'rgba(245,158,11,0.5)' },
+    { color: '#22d3ee', glow: 'rgba(34,211,238,0.5)' },
+  ];
+
+  return (
+    <div className="relative mt-8 w-full max-w-md h-16">
+      <div
+        className="absolute left-[8%] right-[8%] top-1/2 h-px"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent, rgba(59,130,246,0.8), rgba(34,211,238,0.7), rgba(16,185,129,0.8), transparent)',
+          boxShadow: '0 0 12px rgba(59,130,246,0.45)',
+        }}
+      />
+      <div
+        className="absolute left-[8%] right-[8%] top-1/2 h-px animate-dash-flow"
+        style={{
+          background: 'linear-gradient(90deg, transparent, #fff, transparent)',
+          opacity: 0.35,
+        }}
+      />
+      <div className="absolute inset-0 flex items-center justify-between px-[6%]">
+        {nodes.map((n, i) => (
+          <div
+            key={i}
+            className="relative w-9 h-9 rounded-full"
+            style={{
+              background: `radial-gradient(circle at 35% 30%, #fff, ${n.color} 42%, #05070c 78%)`,
+              boxShadow: `0 8px 24px ${n.glow}, 0 0 0 6px ${n.glow.replace('0.5', '0.12').replace('0.55', '0.12')}`,
+              animation: 'breathe 3.2s ease-in-out infinite',
+              animationDelay: `${i * 0.35}s`,
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function LoginPage({ onLoginSuccess }) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
-  const [username, setUsername]       = useState('');
-  const [password, setPassword]       = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe]   = useState(false);
-  const [errors, setErrors]           = useState({});
+  const [rememberMe, setRememberMe] = useState(false);
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [loginError, setLoginError]   = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  // Stable particle indices
-  const particleIndices = useMemo(() => Array.from({ length: 22 }, (_, i) => i), []);
+  const particleIndices = useMemo(() => Array.from({ length: 28 }, (_, i) => i), []);
+  const dollarIndices = useMemo(() => Array.from({ length: 16 }, (_, i) => i), []);
+  const cardParticleIndices = useMemo(() => Array.from({ length: 10 }, (_, i) => i + 40), []);
+  const cardDollarIndices = useMemo(() => Array.from({ length: 8 }, (_, i) => i + 20), []);
 
   const validateForm = () => {
     const e = {};
-    if (!username)                         e.username = 'Email is required';
+    if (!username) e.username = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(username)) e.username = 'Enter a valid email address';
-    if (!password)                         e.password = 'Password is required';
-    else if (password.length < 6)          e.password = 'Minimum 6 characters required';
+    if (!password) e.password = 'Password is required';
+    else if (password.length < 6) e.password = 'Minimum 6 characters required';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -168,7 +292,7 @@ export default function LoginPage({ onLoginSuccess }) {
     setIsSubmitting(true);
     setTimeout(() => {
       const user = mockUsers.find(
-        u => u.username === username.trim() && u.password === password
+        (u) => u.username === username.trim() && u.password === password
       );
       setIsSubmitting(false);
       if (user) onLoginSuccess(user);
@@ -176,12 +300,19 @@ export default function LoginPage({ onLoginSuccess }) {
     }, 1500);
   };
 
+  const onSceneMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setTilt({
+      x: ((e.clientX - r.left) / r.width - 0.5) * 2,
+      y: ((e.clientY - r.top) / r.height - 0.5) * 2,
+    });
+  };
+
   return (
     <div
       className="min-h-screen flex relative overflow-hidden"
-      style={{ background: isDark ? '#05070c' : '#f0f4f8', color: 'var(--text-primary)' }}
+      style={{ background: isDark ? '#030712' : '#e8eef6', color: 'var(--text-primary)' }}
     >
-      {/* ══ Theme toggle (top-right corner) ══ */}
       <button
         onClick={toggleTheme}
         className="absolute top-4 right-4 z-50 p-2.5 rounded-xl border transition-all duration-300 cursor-pointer"
@@ -196,188 +327,85 @@ export default function LoginPage({ onLoginSuccess }) {
         {isDark ? <Sun size={16} /> : <Moon size={16} />}
       </button>
 
-      {/* ══════════════════════════════════════
-          LEFT PANEL — 3D Animated Branding
-      ══════════════════════════════════════ */}
       <div
-        className="hidden lg:flex w-1/2 relative overflow-hidden items-center justify-center p-12"
-        style={{
-          background: isDark
-            ? 'linear-gradient(135deg, #05070c 0%, #0b0f19 50%, #0d1a2e 100%)'
-            : 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f2044 100%)',
-        }}
+        className="hidden lg:flex w-[58%] relative overflow-hidden items-center justify-center"
+        onMouseMove={onSceneMove}
+        onMouseLeave={() => setTilt({ x: 0, y: 0 })}
       >
-        {/* ── Perspective 3D grid plane ── */}
+        <SceneBackdrop particles={particleIndices} dollars={dollarIndices} />
+
         <div
-          className="absolute inset-0"
+          className="absolute left-8 top-[18%] select-none pointer-events-none opacity-[0.07]"
           style={{
-            backgroundImage: `
-              linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
-            transform: 'perspective(600px) rotateX(25deg) scale(1.5)',
-            transformOrigin: 'center 80%',
-            opacity: 0.6,
+            fontFamily: 'Outfit, sans-serif',
+            fontWeight: 800,
+            fontSize: 'clamp(8rem, 18vw, 14rem)',
+            lineHeight: 0.8,
+            letterSpacing: '-0.08em',
+            color: '#fff',
           }}
-        />
+        >
+          FIN
+        </div>
 
-        {/* ── Top radial fade overlay ── */}
         <div
-          className="absolute inset-0"
+          className="relative z-10 flex flex-col items-center perspective-1200"
           style={{
-            background: 'radial-gradient(ellipse 70% 50% at 50% 10%, rgba(5,7,12,0.9) 0%, transparent 100%)',
+            transform: `rotateY(${tilt.x * 10}deg) rotateX(${-tilt.y * 7}deg)`,
+            transition: 'transform 0.35s ease-out',
+            transformStyle: 'preserve-3d',
           }}
-        />
-
-        {/* ── Large drifting orbs ── */}
-        <div
-          className="absolute animate-orb-drift pointer-events-none"
-          style={{ top: '10%', left: '5%', width: '380px', height: '380px',
-            background: 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)',
-            borderRadius: '50%', animationDuration: '22s', animationDelay: '0s' }}
-        />
-        <div
-          className="absolute animate-orb-drift pointer-events-none"
-          style={{ bottom: '5%', right: '5%', width: '450px', height: '450px',
-            background: 'radial-gradient(circle, rgba(13,148,136,0.08) 0%, transparent 70%)',
-            borderRadius: '50%', animationDuration: '30s', animationDelay: '10s' }}
-        />
-        <div
-          className="absolute animate-breathe pointer-events-none"
-          style={{ top: '40%', right: '15%', width: '200px', height: '200px',
-            background: 'radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)',
-            borderRadius: '50%', animationDuration: '15s', animationDelay: '5s' }}
-        />
-
-        {/* ── Floating particles ── */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {particleIndices.map(i => <Particle key={i} i={i} />)}
-        </div>
-
-        {/* ── Rotating geometric rings (top-right) ── */}
-        <div className="absolute top-8 right-8 pointer-events-none" style={{ opacity: 0.15 }}>
-          <GeometricRing size="100px" duration="30s" color="rgba(37,99,235,0.6)" reverse={false} />
-          <div style={{ position: 'absolute', inset: '15px' }}>
-            <GeometricRing size="70px" duration="20s" color="rgba(13,148,136,0.6)" reverse={true} />
+        >
+          <div className="relative">
+            <HeroCore />
+            <FloatChip
+              value="508+"
+              accent="#34d399"
+              delay="0s"
+              className="-left-6 top-10"
+            />
+            <FloatChip
+              value="Mar 26"
+              accent="#fbbf24"
+              delay="1.2s"
+              className="-right-4 bottom-16"
+            />
           </div>
-        </div>
-
-        {/* ── Rotating geometric rings (bottom-left) ── */}
-        <div className="absolute bottom-8 left-8 pointer-events-none" style={{ opacity: 0.12 }}>
-          <GeometricRing size="80px" duration="25s" color="rgba(16,185,129,0.6)" reverse={true} />
-        </div>
-
-        {/* ── Corner accent brackets ── */}
-        <div className="absolute top-6 left-6 w-8 h-8 pointer-events-none opacity-25"
-          style={{ borderTop: '2px solid #2563eb', borderLeft: '2px solid #2563eb' }} />
-        <div className="absolute bottom-6 right-6 w-8 h-8 pointer-events-none opacity-25"
-          style={{ borderBottom: '2px solid #2563eb', borderRight: '2px solid #2563eb' }} />
-
-        {/* ── Main content ── */}
-        <div className="relative z-10 max-w-lg select-none text-left">
-          {/* Eyebrow pill */}
-          <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-8"
-            style={{
-              background: 'rgba(37,99,235,0.1)',
-              border: '1px solid rgba(37,99,235,0.25)',
-              color: '#60a5fa',
-            }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-            SLA Compliance Platform
-          </div>
-
-          <h1
-            className="font-extrabold tracking-tight leading-[1.1] mb-5"
-            style={{ fontSize: 'clamp(2.2rem, 4vw, 3.2rem)', color: '#ffffff', fontFamily: 'Outfit, sans-serif' }}
-          >
-            FIN{' '}
-            <span style={{ color: '#3b82f6' }}>Commercial</span>
-            <br />SLA Compliance.
-          </h1>
-
-          <p className="text-base font-medium leading-relaxed mb-10" style={{ color: '#94a3b8' }}>
-            Enterprise operational visibility for Finance &amp; Commercial teams — SLA tracking,
-            root-cause analysis, and daily execution performance.
-          </p>
-
-          {/* Data-flow SVG card */}
-          <div
-            className="rounded-xl p-5 shadow-2xl"
-            style={{
-              background: 'rgba(5,7,12,0.7)',
-              border: '1px solid rgba(31,41,55,0.8)',
-              backdropFilter: 'blur(12px)',
-            }}
-          >
-            <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-3">
-              Live Pipeline Monitor
-            </p>
-            <DataFlowSVG />
-          </div>
-
-          {/* Stats strip */}
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            {[
-              { label: 'SLA Target',    value: '95%',   color: '#60a5fa' },
-              { label: 'Execution Runs', value: '508+',  color: '#34d399' },
-              { label: 'Tracked Since', value: 'Mar 26', color: '#fbbf24' },
-            ].map(s => (
-              <div
-                key={s.label}
-                className="rounded-lg p-3 text-center"
-                style={{ background: 'rgba(17,24,39,0.6)', border: '1px solid rgba(31,41,55,0.6)' }}
-              >
-                <p className="font-extrabold text-lg" style={{ color: s.color, fontFamily: 'Outfit, sans-serif' }}>
-                  {s.value}
-                </p>
-                <p className="text-[10px] font-semibold uppercase tracking-wider mt-0.5" style={{ color: '#6b7280' }}>
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
+          <PipelineOrbs />
         </div>
       </div>
 
-      {/* ══════════════════════════════════════
-          RIGHT PANEL — Login Form
-      ══════════════════════════════════════ */}
-      <div
-        className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative"
-        style={{ background: isDark ? 'rgba(11,15,25,0.5)' : 'rgba(240,244,248,0.95)' }}
-      >
-        {/* Subtle right-panel animated glow */}
-        <div
-          className="absolute pointer-events-none animate-breathe"
-          style={{
-            top: '30%', right: '10%',
-            width: '300px', height: '300px',
-            background: isDark
-              ? 'radial-gradient(circle, rgba(37,99,235,0.04) 0%, transparent 70%)'
-              : 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)',
-            borderRadius: '50%',
-            animationDuration: '18s',
-          }}
-        />
+      <div className="w-full lg:w-[42%] flex items-center justify-center p-6 sm:p-12 relative overflow-hidden">
+        <SceneBackdrop particles={particleIndices} dollars={dollarIndices} />
 
         <div
-          className="w-full max-w-md rounded-2xl p-8 shadow-2xl animate-fade-in"
+          className="relative z-10 w-full max-w-[400px] rounded-2xl p-8 shadow-2xl animate-fade-in login-card-border overflow-hidden"
           style={{
-            background: isDark ? 'rgba(5,7,12,0.9)' : 'rgba(255,255,255,0.95)',
-            border: `1px solid ${isDark ? 'rgba(17,24,39,0.8)' : 'rgba(203,213,225,0.8)'}`,
-            backdropFilter: 'blur(20px)',
+            transform: `perspective(900px) rotateY(${tilt.x * -4}deg)`,
+            transition: 'transform 0.4s ease-out',
           }}
         >
-          {/* Logo + Header */}
-          <div className="mb-8 text-center select-none">
+          <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
+            <SceneBackdrop particles={cardParticleIndices} dollars={cardDollarIndices} />
+          </div>
+          <div
+            className="pointer-events-none absolute inset-0 rounded-2xl"
+            style={{ background: 'rgba(2,6,23,0.28)' }}
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 w-16 opacity-20 animate-sheen z-10"
+            style={{
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent)',
+            }}
+          />
+
+          <div className="relative z-10">
+          <div className="mb-7 text-center select-none">
             <div
-              className="h-12 w-12 rounded-xl flex items-center justify-center font-black text-white text-lg mx-auto mb-4"
+              className="h-14 w-14 rounded-2xl flex items-center justify-center font-black text-white text-lg mx-auto mb-5"
               style={{
-                background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
-                boxShadow: '0 8px 20px rgba(37,99,235,0.3)',
+                background: 'linear-gradient(135deg, #2563eb 0%, #22d3ee 100%)',
+                boxShadow: '0 12px 32px rgba(37,99,235,0.45), 0 0 0 8px rgba(37,99,235,0.12)',
                 fontFamily: 'Outfit, sans-serif',
               }}
             >
@@ -385,16 +413,12 @@ export default function LoginPage({ onLoginSuccess }) {
             </div>
             <h2
               className="text-2xl font-extrabold tracking-tight"
-              style={{ color: 'var(--text-heading)', fontFamily: 'Outfit, sans-serif' }}
+              style={{ color: '#ffffff', fontFamily: 'Outfit, sans-serif' }}
             >
-              Secure Operations Login
+              Sign in
             </h2>
-            <p className="text-xs font-medium mt-2" style={{ color: 'var(--text-muted)' }}>
-              Enter your credentials to access the compliance system
-            </p>
           </div>
 
-          {/* Error alert */}
           {loginError && (
             <div
               className="p-3.5 rounded-lg text-xs font-semibold flex items-start gap-2.5 mb-5 animate-shake"
@@ -409,15 +433,14 @@ export default function LoginPage({ onLoginSuccess }) {
             </div>
           )}
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              label="Email / Username"
+              label="Email"
               id="login-email"
               type="text"
               placeholder="admin@fin.com"
               value={username}
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               error={errors.username}
               icon={<Mail size={15} />}
               disabled={isSubmitting}
@@ -430,7 +453,7 @@ export default function LoginPage({ onLoginSuccess }) {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 error={errors.password}
                 icon={<Lock size={15} />}
                 disabled={isSubmitting}
@@ -438,16 +461,15 @@ export default function LoginPage({ onLoginSuccess }) {
               <button
                 type="button"
                 tabIndex={-1}
-                onClick={() => setShowPassword(v => !v)}
+                onClick={() => setShowPassword((v) => !v)}
                 className="absolute right-3 cursor-pointer"
-                style={{ top: errors.password ? '34px' : '34px', color: 'var(--text-muted)' }}
+                style={{ top: '34px', color: 'var(--text-muted)' }}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
             </div>
 
-            {/* Remember + Forgot */}
             <div className="flex items-center justify-between text-xs select-none pt-1">
               <label
                 className="flex items-center gap-2 cursor-pointer font-medium"
@@ -456,11 +478,11 @@ export default function LoginPage({ onLoginSuccess }) {
                 <input
                   type="checkbox"
                   checked={rememberMe}
-                  onChange={e => setRememberMe(e.target.checked)}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="rounded cursor-pointer"
                   style={{ accentColor: '#2563eb' }}
                 />
-                Remember this terminal
+                Remember
               </label>
               <button
                 type="button"
@@ -468,25 +490,28 @@ export default function LoginPage({ onLoginSuccess }) {
                 style={{ color: '#3b82f6' }}
                 onClick={() => alert('Contact Fin Operations Support to reset password.')}
               >
-                Forgot credentials?
+                Forgot?
               </button>
             </div>
 
-            {/* Submit */}
             <Button
               type="submit"
               variant="primary"
               className="w-full py-3 mt-2 text-sm font-bold tracking-wide"
+              style={{
+                background: 'linear-gradient(90deg, #2563eb, #0ea5e9)',
+                boxShadow: '0 12px 28px rgba(37,99,235,0.35)',
+              }}
               isLoading={isSubmitting}
             >
-              Sign In to Dashboard
+              Enter
             </Button>
           </form>
 
-          {/* Footer hint */}
           <p className="text-center text-[10px] mt-5 font-medium" style={{ color: 'var(--text-muted)' }}>
-            Demo credentials: <span style={{ color: '#3b82f6' }}>admin@fin.com</span> / password123
+            Demo: <span style={{ color: '#3b82f6' }}>admin@fin.com</span> / password123
           </p>
+          </div>
         </div>
       </div>
     </div>

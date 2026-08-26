@@ -251,6 +251,48 @@ h1, h2, h3, h4, h5, h6 {
   50%       { opacity: 0.6; }
 }
 
+/* Login 3D scene */
+@keyframes rotate-y-3d {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+@keyframes rotate-z-tilt {
+  from { transform: rotateX(68deg) rotateZ(0deg); }
+  to   { transform: rotateX(68deg) rotateZ(360deg); }
+}
+
+@keyframes float-3d {
+  0%, 100% { transform: translate3d(0, 0, 40px); }
+  50%      { transform: translate3d(0, -22px, 70px); }
+}
+
+@keyframes mesh-shift {
+  0%   { background-position: 0% 40%; }
+  50%  { background-position: 100% 60%; }
+  100% { background-position: 0% 40%; }
+}
+
+@keyframes grid-pan {
+  0%   { background-position: 0 0; }
+  100% { background-position: 80px 80px; }
+}
+
+@keyframes orbit-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.45; filter: blur(28px); }
+  50%      { opacity: 0.9;  filter: blur(18px); }
+}
+
+@keyframes sheen {
+  0%   { transform: translateX(-120%) rotate(18deg); }
+  100% { transform: translateX(220%) rotate(18deg); }
+}
+
 /* ============================================================
    ANIMATION CLASSES
    ============================================================ */
@@ -267,6 +309,61 @@ h1, h2, h3, h4, h5, h6 {
 .animate-slide-in       { animation: slide-in-left 0.3s ease forwards; }
 .animate-dot-breathe    { animation: dot-breathe ease-in-out infinite; }
 .animate-pulse-subtle   { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-rotate-y-3d    { animation: rotate-y-3d 28s linear infinite; }
+.animate-rotate-z-tilt  { animation: rotate-z-tilt 40s linear infinite; }
+.animate-float-3d       { animation: float-3d 6.5s ease-in-out infinite; }
+.animate-mesh-shift     { animation: mesh-shift 18s ease-in-out infinite; }
+.animate-grid-pan       { animation: grid-pan 24s linear infinite; }
+.animate-orbit-spin     { animation: orbit-spin 22s linear infinite; }
+.animate-glow-pulse     { animation: glow-pulse 4.5s ease-in-out infinite; }
+.animate-sheen          { animation: sheen 4.5s ease-in-out infinite; }
+
+.login-mesh {
+  background-size: 220% 220%;
+}
+
+.login-gradient-text {
+  background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 38%, #22d3ee 72%, #34d399 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.login-card-border {
+  position: relative;
+}
+.login-card-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, rgba(59,130,246,0.7), rgba(34,211,238,0.15), rgba(16,185,129,0.45), rgba(59,130,246,0.2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rotate-y-3d,
+  .animate-rotate-z-tilt,
+  .animate-float-3d,
+  .animate-mesh-shift,
+  .animate-grid-pan,
+  .animate-orbit-spin,
+  .animate-glow-pulse,
+  .animate-sheen,
+  .animate-float-up,
+  .animate-orb-drift,
+  .animate-spin-slow,
+  .animate-spin-reverse,
+  .animate-dash-flow,
+  .animate-dash-reverse,
+  .animate-breathe {
+    animation: none !important;
+  }
+}
 
 /* ============================================================
    CARD 3D HOVER EFFECT
